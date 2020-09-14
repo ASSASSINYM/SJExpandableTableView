@@ -27,6 +27,19 @@ class ViewController: UIViewController,SJExpandableTableViewAble {
         
         mainTableView = mainTableView.configuratorItemHeight(height: 45)
             .configuratorHeaderTitle(headerTitle: ["項目一","項目二","項目三"])
+            .registerNibCell(cellIDs: ["TextViewCell"])
+            .configuratorItemCell(configureCell: { [weak self] (tb, index) -> UITableViewCell? in
+                guard let weak = self else { return nil }
+                let cell = tb.dequeueReusableCell(withIdentifier: "TextViewCell", for: index) as! TextViewCell
+                cell.setupData(index: index.row, mDelegate: weak.mainTableView)
+                return cell
+            })
+            .configuratorItemCellForHeight(configureHeight: { (tb, index, currentIndex) -> CGFloat in
+                if let current = currentIndex, current == index.row {
+                    return index.row % 2 == 0 ? 180 : 270
+                }
+                return 45 //index.row % 2 == 0 ? 180 : 90
+            })
             .itemDidSelected { (index) in
                 print(index.row)
         }.pullToRefresh(header: {

@@ -107,6 +107,11 @@ class SJExpandableTableView: UIView {
         return self
     }
     
+    func configuratorItemCellForHeight(configureHeight:@escaping ((_ tb:UITableView, _ index:IndexPath, _ selected:Int?) -> CGFloat)) -> SJExpandableTableView {
+        sj_height_for_row_at = configureHeight
+        return self
+    }
+    
     func headerDidSelected(completed:((_ index:IndexPath) -> Void)) -> SJExpandableTableView {
         return self
     }
@@ -156,6 +161,7 @@ class SJExpandableTableView: UIView {
         stopRefresh()
     }
     
+    
     //MARK: - private objective and proprety
     private var mTitles:[[HeaderData]] = []
     private var mContent:[[[ContentData]]] = []
@@ -163,6 +169,7 @@ class SJExpandableTableView: UIView {
     private var sj_item_selected:((_ index:IndexPath) -> Void)?
     private var sj_configure_header:((_ tb:UITableView, _ section:Int) -> UITableViewHeaderFooterView?)?
     private var sj_configure_cell:((_ tb:UITableView, _ index:IndexPath) -> UITableViewCell?)?
+    private var sj_height_for_row_at:((_ tb:UITableView, _ index:IndexPath, _ selectedIndex:Int?) -> CGFloat)?
     private var sj_item_height:CGFloat = 30
     private var sj_header_title:[String] = []
     private var sj_item_width_scale:[Float] = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
@@ -296,11 +303,13 @@ extension SJExpandableTableView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        tableView.tableViewDisplayWithMessage(datasCount: mTitles.count,tableView: tableView)
         return self.mTitles.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        guard sj_height_for_row_at == nil else {
+            return sj_height_for_row_at!(tableView, indexPath, selectedIndex)
+        }
         if let f_index = selectedIndex , f_index == indexPath.row, mContent.count != 0 {
             let rows = mContent[indexPath.row].count
             return CGFloat(rows+1) * sj_item_height
@@ -313,7 +322,6 @@ extension SJExpandableTableView: UITableViewDelegate, UITableViewDataSource {
             return (sj_configure_cell?(tableView, indexPath))!
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: "ExpandableItemCell", for: indexPath) as! ExpandableItemCell
-        
         
         let titles:[HeaderData] = mTitles[indexPath.row]
         var contests:[[ContentData]] = []
