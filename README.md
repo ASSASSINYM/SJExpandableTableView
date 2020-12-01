@@ -9,25 +9,25 @@ Just run the example project, or clone the repo.
 * iOS 14
 * Swift 5.2
 
-![GITHUB](https://github.com/SabrinaJiang14/SJExpandableTableView/Example/demo.gif "demo")
+![GITHUB](https://github.com/SabrinaJiang14/SJExpandableTableView/blob/master/Example/demo.gif "demo")
 
 ## Basic Usage
 - Example code
 ``` swift
-	// normal status's height
-	.configureItem(height: 45)
+// normal status's height
+.configureItem(height: 45)
 
-	// top title
-	.configureHeader(titles: ["項目一","項目二","項目三"])
+// top title
+.configureHeader(titles: ["項目一","項目二","項目三"])
 
-	// conform to the SJExpandableTableDataSource protocol
-	.configureDelegate(self)
+// conform to the SJExpandableTableDataSource protocol
+.configureDelegate(self)
 
-	// collapse tableView header
-	.itemTitleDidSelected { _ in }
+// collapse tableView header
+.itemTitleDidSelected { _ in }
 
-	// collapse tableView cell
-	.itemContentDidSelected { _ in }
+// collapse tableView cell
+.itemContentDidSelected { _ in }
 ```
 ``` swift
 // binding data
