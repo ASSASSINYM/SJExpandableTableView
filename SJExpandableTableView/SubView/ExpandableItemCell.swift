@@ -152,8 +152,13 @@ class ExpandableItemCell: UITableViewCell {
         case .string(let str):
             label.text = str
             label.textColor = item.color
-        case .attributed(_):
-            label.attributedText = item.attr
+        case .attributed(let attr):
+            label.attributedText = attr
+            if item.showAutoHeight {
+                label.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
+            }else{
+                label.heightAnchor.constraint(equalToConstant: itemHeight).isActive = true
+            }
         }
         label.textAlignment = item.align
         label.font = UIFont.systemFont(ofSize: 12)
