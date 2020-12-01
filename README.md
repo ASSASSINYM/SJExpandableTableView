@@ -44,7 +44,7 @@ self.binding.bind(to: mainTableView)
 // conform the (tableView: cellForRowAt:) protocol 
 .configureItemCell { [weak self] (tb, indexPath, headers, contents, selectedIndex) -> UITableViewCell? in
 	//TODO: Need return custom cell
-	// 		and the custom cell should conform *ExpandableItemCellDelegate* if want get cell tap event
+	// 		and the custom cell should conform **ExpandableItemCellDelegate** if want get cell tap event
 }
 
 // conform the (tableView: heightForRowAt:) protocol 
@@ -53,8 +53,8 @@ self.binding.bind(to: mainTableView)
 }
 ```
 # TODO
-- [ ]Refresh with tableView header
-- [ ]Collapse all / Expand all
+- [ ] Refresh with tableView header
+- [ ] Collapse all / Expand all
 
 ---
 # Licence
