@@ -54,7 +54,7 @@ self.binding.bind(to: mainTableView)
 ```
 # TODO
 - [ ] Refresh with tableView header
-- [X] Collapse all / Expand all
+- [X] ~~Collapse all / Expand all~~
 
 ---
 # Licence
