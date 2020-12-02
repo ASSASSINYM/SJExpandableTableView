@@ -14,6 +14,16 @@ protocol SJExpandableTableDataSource {
     var binding:BindData { get set }
 }
 
+class CollapseTableView: UITableView {
+    @discardableResult func configureCalssCell(any:[AnyClass]) -> CollapseTableView {
+        for cell in any {
+            self.register(cell.self, forCellReuseIdentifier: String(describing: cell.self))
+        }
+        return self
+    }
+    
+}
+
 class SJExpandableTableView: UIView {
 
     @IBOutlet weak var tableView: UITableView!
@@ -84,6 +94,53 @@ class SJExpandableTableView: UIView {
         return self
     }
     
+    @discardableResult func pullToRefresh(header h:(() -> Void)?, footer f:(() -> Void)?) -> SJExpandableTableView {
+        if let _ = h {
+            sj_header_refresh = h
+            createHeaderView()
+        }
+        if let _ = f {
+            sj_footer_refresh = f
+            createFooterView()
+        }
+        return self
+    }
+    
+    private func createFooterView() {
+        footerLoading = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 30))
+        footerLoading?.isHidden = true
+        tableView.tableFooterView = footerLoading
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 11)
+        label.textColor = .gray
+        label.text = "加載中..."
+        label.sizeToFit()
+        footerLoading?.addSubview(label)
+        let loading = UIActivityIndicatorView(style: .medium)
+        loading.color = .gray
+        loading.startAnimating()
+        footerLoading?.addSubview(loading)
+        if let tableFooterView = tableView.tableFooterView {
+            label.translatesAutoresizingMaskIntoConstraints = false
+            label.centerXAnchor.constraint(equalTo: tableFooterView.centerXAnchor, constant: 10).isActive = true
+            label.centerYAnchor.constraint(equalTo: tableFooterView.centerYAnchor).isActive = true
+            loading.translatesAutoresizingMaskIntoConstraints = false
+            loading.centerYAnchor.constraint(equalTo: tableFooterView.centerYAnchor).isActive = true
+            loading.trailingAnchor.constraint(equalTo: label.leadingAnchor, constant: -5).isActive = true
+        }
+    }
+    
+    private func createHeaderView() {
+        headerLoading = UIRefreshControl()
+        headerLoading?.addTarget(self, action: #selector(headerRefresh(_:)), for: .valueChanged)
+        tableView.refreshControl = headerLoading
+    }
+    
+    @objc private func headerRefresh(_ sender:UIRefreshControl) {
+        sender.beginRefreshing()
+        sj_header_refresh?()
+    }
+    
     func getBind() -> BindType? {
         registerBind()
         return sj_bind_data
@@ -93,13 +150,16 @@ class SJExpandableTableView: UIView {
     //MARK: - private objective and proprety
     private var mTitles:[[HeaderData]] = []
     private var mContent:[[[ContentData]]] = []
-    
+    private var headerLoading:UIRefreshControl?
+    private var footerLoading:UIView?
     private var sj_item_selected:((_ index:IndexPath) -> Void)?
     private var sj_item_title_selected:((_ index:IndexPath) -> Void)?
     private var sj_configure_header:((_ tb:UITableView, _ section:Int) -> UITableViewHeaderFooterView?)?
     private var sj_configure_cell:((_ tb:UITableView, _ index:IndexPath, _ titles:[HeaderData], _ contents:[[ContentData]], _ currentIndex:Int?) -> UITableViewCell?)?
     private var sj_height_for_row_at:((_ tb:UITableView, _ index:IndexPath, _ selectedIndex:Int?, _ contests:[[ContentData]]) -> CGFloat)?
     private var sj_item_height:CGFloat = 30
+    private var sj_header_refresh:(() -> Void)?
+    private var sj_footer_refresh:(() -> Void)?
     private var sj_header_title:[String] = []
     private var sj_item_width_scale:[Float] = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
     private var sj_bind_data:BindType?
@@ -138,6 +198,8 @@ class SJExpandableTableView: UIView {
     
     private func registerBind() {
         sj_bind_data = { [unowned self] (titles, contents) in
+            self.footerLoading?.isHidden = true
+            self.headerLoading?.endRefreshing()
             self.selectedIndex = nil
             self.mTitles = titles
             self.mContent = contents
@@ -273,6 +335,18 @@ extension SJExpandableTableView: UITableViewDelegate, UITableViewDataSource {
         cell.backgroundColor = .clear
         cell.textLabel?.adjustsFontSizeToFitWidth = true
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard indexPath.row + 5 == mTitles.count else { return }
+        Log.info(indexPath.row)
+        footerLoading?.isHidden = false
+        sj_footer_refresh?()
+    }
+    
+    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard indexPath.row + 5 == mTitles.count else { return }
+        Log.error(indexPath.row)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

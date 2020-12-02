@@ -10,7 +10,7 @@ import UIKit
 
 class FixedHeightViewController: UIViewController, SJExpandableTableDataSource {
     var binding: BindData = BindData()
-    
+    private var num : Int = 1
     private lazy var mainTableView:SJExpandableTableView = {
         return SJExpandableTableView(frame: self.view.frame)
     }()
@@ -30,10 +30,16 @@ class FixedHeightViewController: UIViewController, SJExpandableTableDataSource {
             .configureItem(height: 45)
             // top title
             .configureHeader(titles: ["項目一","項目二","項目三"])
-            // conform to the SJExpandableTableDataSource protocol
+            // allow mutilple selected, dafault is false
             .configureMultipleCollapse(true)
-            //
+            // conform to the SJExpandableTableDataSource protocol
             .configureDelegate(self)
+            // need pull refresh
+            .pullToRefresh(header: { [weak self] in
+                self?.perform(#selector(self?.getData), with: nil, afterDelay: 1.0)
+            }, footer: { [weak self]  in
+                self?.perform(#selector(self?.getData2), with: nil, afterDelay: 1.0)
+            })
             // collapse tableView header
             .itemTitleDidSelected { _ in }
             // collapse tableView cell
@@ -41,7 +47,7 @@ class FixedHeightViewController: UIViewController, SJExpandableTableDataSource {
                 Log.info(index.row)
                 self?.showDialog("\(index.row)")
             }
-            
+        
         // binding data
         self.binding.bind(to: mainTableView)
         
@@ -55,10 +61,30 @@ class FixedHeightViewController: UIViewController, SJExpandableTableDataSource {
         self.present(alert, animated: true, completion: nil)
     }
     
-    private func getData() {
+    @objc private func getData() {
         var totalTitles:[[HeaderData]] = []
         var totalContents:[[[ContentData]]] = []
-        (0..<4).forEach { (index) in
+        (0..<10).forEach { (index) in
+            totalTitles.append([HeaderData(text: "AAA"),
+                                HeaderData(text: "BBB"),
+                                HeaderData(text: "CCC")])
+            var datas:[[ContentData]] = []
+            datas.append([ContentData(text: .string(String(format: "Content1: %.2f", 0.5555))),
+                          ContentData(text: .string(String(format: "Content1: %.2f", 0.666))),
+                          ContentData(text: .string(String(format: "Content1: %.2f", 0.7777)))])
+            datas.append([ContentData(text: .string(String(format: "Content2: %d", 1.1))),
+                          ContentData(text: .string(String(format: "Content2: %d", 1.2))),
+                          ContentData(text: .string(String(format: "Content2: %.2f", 1.33)))])
+            totalContents.append(datas)
+        }
+        self.binding.onBind?(totalTitles, totalContents)
+    }
+    
+    @objc private func getData2() {
+        num += 1
+        var totalTitles:[[HeaderData]] = []
+        var totalContents:[[[ContentData]]] = []
+        (0..<((10*num)+20)).forEach { (index) in
             totalTitles.append([HeaderData(text: "AAA"),
                                 HeaderData(text: "BBB"),
                                 HeaderData(text: "CCC")])

@@ -20,6 +20,9 @@ Just run the example project, or clone the repo.
 // top title
 .configureHeader(titles: ["項目一","項目二","項目三"])
 
+// allow mutilple selected, dafault is false
+.configureMultipleCollapse(true)
+
 // conform to the SJExpandableTableDataSource protocol
 .configureDelegate(self)
 
@@ -28,6 +31,13 @@ Just run the example project, or clone the repo.
 
 // collapse tableView cell
 .itemContentDidSelected { _ in }
+
+// need pull refresh
+.pullToRefresh(header: { [weak self] in
+	//TODO: ...
+}, footer: { [weak self]  in
+	//TODO: ...
+})
 ```
 ``` swift
 // binding data
@@ -53,7 +63,7 @@ self.binding.bind(to: mainTableView)
 }
 ```
 # TODO
-- [ ] Refresh with tableView header
+- [X] ~~Refresh with tableView header~~
 - [X] ~~Collapse all / Expand all~~
 
 ---
