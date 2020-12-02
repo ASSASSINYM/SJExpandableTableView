@@ -20,7 +20,7 @@ extension String {
     var htmlToString: String {
         return htmlToAttributedString?.string ?? ""
     }
-    var isHtml: Bool {
+    var hasHTMLFormat: Bool {
         let htmlFormat1 = "*<*>*</*>"
         let htmlFormat2 = "*<*/>*"
         let predicate = NSPredicate(format: "SELF like[cd] %@ OR SELF like[cd] %@", htmlFormat1, htmlFormat2)

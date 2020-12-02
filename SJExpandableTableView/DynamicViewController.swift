@@ -29,7 +29,6 @@ class DynamicViewController: UIViewController, SJExpandableTableDataSource {
             .configureItem(height: 45)
             .configureHeader(titles: ["項目一","項目二","項目三"])
             .configureNibCell(cellIDs: ["TextViewCell"])
-            .configureClassCell(any: [TextViewCell.self])
             .configureDelegate(self)
             .configureItemCell { [weak self] (tb, indexPath, headers, contents, selectedIndex) -> UITableViewCell? in
                 guard let weak = self else { return nil }

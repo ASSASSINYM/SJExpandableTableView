@@ -31,6 +31,8 @@ class FixedHeightViewController: UIViewController, SJExpandableTableDataSource {
             // top title
             .configureHeader(titles: ["項目一","項目二","項目三"])
             // conform to the SJExpandableTableDataSource protocol
+            .configureMultipleCollapse(true)
+            //
             .configureDelegate(self)
             // collapse tableView header
             .itemTitleDidSelected { _ in }

@@ -26,7 +26,7 @@ struct ContentData {
         self.showAutoHeight = autoHeight
         switch text {
         case .attributed(let attrStr):
-            if attrStr.string.isHtml, let attr = attrStr.string.htmlToAttributedString {
+            if attrStr.string.hasHTMLFormat, let attr = attrStr.string.htmlToAttributedString {
                 self.text = ContentText.attributed(attr)
             }else{
                 self.text = text

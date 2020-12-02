@@ -79,6 +79,11 @@ class SJExpandableTableView: UIView {
         return self
     }
     
+    @discardableResult func configureMultipleCollapse(_ isOn:Bool) -> SJExpandableTableView {
+        sj_multiple_selected = isOn
+        return self
+    }
+    
     func getBind() -> BindType? {
         registerBind()
         return sj_bind_data
@@ -98,7 +103,9 @@ class SJExpandableTableView: UIView {
     private var sj_header_title:[String] = []
     private var sj_item_width_scale:[Float] = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
     private var sj_bind_data:BindType?
+    private var sj_multiple_selected:Bool = false
     private var selectedIndex:Int?
+    private var selectedMultipleIndex:[Int:Bool] = [:]
     private var delegate:SJExpandableTableDataSource?
     
     lazy var xibView:UIView = {
@@ -146,6 +153,14 @@ class SJExpandableTableView: UIView {
 extension SJExpandableTableView : ExpandableItemCellDelegate {
     func tapExpandableItemCell(_ index: Int?) {
         guard let _ = sj_item_title_selected else { return }
+        if sj_multiple_selected {
+            multipleSelected(index)
+        }else{
+            singleSelected(index)
+        }
+    }
+    
+    private func singleSelected(_ index: Int?) {
         guard let section = index else { return }
         var arr:[IndexPath] = []
         if selectedIndex == section {
@@ -159,6 +174,19 @@ extension SJExpandableTableView : ExpandableItemCellDelegate {
         arr.append(IndexPath(row: section, section: 0))
         tableView.beginUpdates()
         tableView.reloadRows(at: arr, with: .automatic)
+        tableView.endUpdates()
+        sj_item_title_selected?(IndexPath(item: section, section: 0))
+    }
+    
+    private func multipleSelected(_ index: Int?) {
+        guard let section = index else { return }
+        if let _ = selectedMultipleIndex[section] {
+            selectedMultipleIndex[section]?.toggle()
+        }else{
+            selectedMultipleIndex[section] = true
+        }
+        tableView.beginUpdates()
+        tableView.reloadRows(at: [IndexPath(row: section, section: 0)], with: .automatic)
         tableView.endUpdates()
         sj_item_title_selected?(IndexPath(item: section, section: 0))
     }
@@ -196,11 +224,27 @@ extension SJExpandableTableView: UITableViewDelegate, UITableViewDataSource {
         guard sj_height_for_row_at == nil else {
             return sj_height_for_row_at!(tableView, indexPath, selectedIndex, _content)
         }
-        if let f_index = selectedIndex , f_index == indexPath.row, mContent.count != 0 {
-            let rows = _content.count
-            return CGFloat(rows+1) * sj_item_height
+        var rows : Int = 0
+        if sj_multiple_selected, isMultipleExpend(heightForRowAt: indexPath, contentCount: _content.count) {
+            rows = _content.count
+        }else if isSingleExpend(heightForRowAt: indexPath, contentCount: _content.count) {
+            rows = _content.count
         }
-        return sj_item_height
+        return CGFloat(rows+1) * sj_item_height
+    }
+    
+    private func isSingleExpend(heightForRowAt indexPath: IndexPath, contentCount:Int) -> Bool {
+        if let f_index = selectedIndex , f_index == indexPath.row, mContent.count != 0 {
+            return true
+        }
+        return false
+    }
+    
+    private func isMultipleExpend(heightForRowAt indexPath: IndexPath, contentCount:Int) -> Bool {
+        if let value = selectedMultipleIndex[indexPath.row] {
+            return value
+        }
+        return false
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -217,9 +261,12 @@ extension SJExpandableTableView: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ExpandableItemCell", for: indexPath) as! ExpandableItemCell
         
         var isExp:Bool = false
-        
-        if let mSelectIndex = selectedIndex, mSelectIndex == indexPath.row {
-            isExp = true
+        if let value = selectedMultipleIndex[indexPath.row] {
+            isExp = value
+        }else{
+            if let mSelectIndex = selectedIndex, mSelectIndex == indexPath.row {
+                isExp = true
+            }
         }
         
         cell.setupData(mTitles: titles, mContent: contests, index: indexPath.row, isExpand: isExp, mDelegate: self, itemHeight: sj_item_height, mScale: sj_item_width_scale)
