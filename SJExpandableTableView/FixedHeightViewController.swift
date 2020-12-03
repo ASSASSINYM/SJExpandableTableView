@@ -26,10 +26,6 @@ class FixedHeightViewController: UIViewController, SJExpandableTableDataSource {
                                      mainTableView.rightAnchor.constraint(equalTo: self.view.rightAnchor)])
         
         mainTableView
-            .configureHeaderView(configureView: { (tb, index) -> UITableViewHeaderFooterView? in
-                let v = UITableViewHeaderFooterView()
-                return v
-            })
             // normal status's height
             .configureItem(height: 45)
             // top title
