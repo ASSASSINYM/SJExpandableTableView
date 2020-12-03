@@ -12,6 +12,14 @@ Just run the example project, or clone the repo.
 ![GITHUB](https://github.com/SabrinaJiang14/SJExpandableTableView/blob/master/Example/demo.gif "demo")
 
 ## Basic Usage
+The TableView colud be init by code or by IBOutlet,
+```swift 
+@IBOutlet weak var mainTableView: SJExpandableTableView!
+
+private lazy var mainTableView:SJExpandableTableView = {
+	return SJExpandableTableView(frame: self.view.frame, style: .plain)
+}()
+```
 - Example code
 ``` swift
 // normal status's height
