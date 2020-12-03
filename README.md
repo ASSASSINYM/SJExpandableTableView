@@ -14,8 +14,10 @@ Just run the example project, or clone the repo.
 ## Basic Usage
 The TableView colud be init by code or by IBOutlet,
 ```swift 
+// IBOutlet
 @IBOutlet weak var mainTableView: SJExpandableTableView!
 
+// code init
 private lazy var mainTableView:SJExpandableTableView = {
 	return SJExpandableTableView(frame: self.view.frame, style: .plain)
 }()
