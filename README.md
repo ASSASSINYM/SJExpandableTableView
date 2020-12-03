@@ -19,7 +19,7 @@ The TableView colud be init by code or by IBOutlet,
 
 // code init
 private lazy var mainTableView:SJExpandableTableView = {
-	return SJExpandableTableView(frame: self.view.frame, style: .plain)
+ return SJExpandableTableView(frame: self.view.frame, style: .plain)
 }()
 ```
 - Example code
@@ -44,9 +44,9 @@ private lazy var mainTableView:SJExpandableTableView = {
 
 // need pull refresh
 .pullToRefresh(header: { [weak self] in
-	//TODO: ...
+ //TODO: ...
 }, footer: { [weak self]  in
-	//TODO: ...
+ //TODO: ...
 })
 ```
 ``` swift
@@ -63,13 +63,13 @@ self.binding.bind(to: mainTableView)
 
 // conform the (tableView: cellForRowAt:) protocol 
 .configureItemCell { [weak self] (tb, indexPath, headers, contents, selectedIndex) -> UITableViewCell? in
-	//TODO: Need return custom cell
-	//      and the custom cell should conform **ExpandableItemCellDelegate** if want get cell tap event
+ //TODO: Need return custom cell
+ //      and the custom cell should conform **ExpandableItemCellDelegate** if want get cell tap event
 }
 
 // conform the (tableView: heightForRowAt:) protocol 
 .configureItemCellForHeight { (tb, indexPath, selectedIndex, content) -> CGFloat in
-	//TODO: Need return height for cell
+ //TODO: Need return height for cell
 }
 ```
 # TODO
