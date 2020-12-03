@@ -57,9 +57,24 @@
                     <view key="view" contentMode="scaleToFill" id="Qvp-DV-8cw">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="zd1-i2-eRa" customClass="SJExpandableTableView" customModule="SJExpandableTableView" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="K2p-YM-Aff"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="zd1-i2-eRa" firstAttribute="leading" secondItem="Qvp-DV-8cw" secondAttribute="leading" id="VnE-aG-dDa"/>
+                            <constraint firstItem="K2p-YM-Aff" firstAttribute="trailing" secondItem="zd1-i2-eRa" secondAttribute="trailing" id="ndq-KV-yYm"/>
+                            <constraint firstItem="K2p-YM-Aff" firstAttribute="bottom" secondItem="zd1-i2-eRa" secondAttribute="bottom" id="vFE-9S-3JU"/>
+                            <constraint firstItem="zd1-i2-eRa" firstAttribute="top" secondItem="K2p-YM-Aff" secondAttribute="top" id="y8C-xb-q86"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="mainTableView" destination="zd1-i2-eRa" id="Ivw-si-bzd"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vvq-cb-cIB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

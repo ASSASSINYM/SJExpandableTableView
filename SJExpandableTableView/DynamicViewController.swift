@@ -10,14 +10,14 @@ import UIKit
 
 class DynamicViewController: UIViewController, SJExpandableTableDataSource {
     var binding: BindData = BindData()
+
     
     private lazy var mainTableView:SJExpandableTableView = {
-        return SJExpandableTableView(frame: self.view.frame)
+        return SJExpandableTableView(frame: self.view.frame, style: .plain)
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         self.view.addSubview(mainTableView)
         mainTableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([mainTableView.topAnchor.constraint(equalTo: self.view.topAnchor),
@@ -35,15 +35,15 @@ class DynamicViewController: UIViewController, SJExpandableTableDataSource {
                 let cell = tb.dequeueReusableCell(withIdentifier: "TextViewCell", for: indexPath) as! TextViewCell
                 cell.setupData(index: indexPath.row, mDelegate: weak.mainTableView)
                 return cell
-            }
-            .configureItemCellForHeight { (tb, indexPath, selectedIndex, content) -> CGFloat in
+            }.configureItemCellForHeight { (tb, indexPath, selectedIndex, content) -> CGFloat in
                 if let current = selectedIndex, current == indexPath.row {
                     return indexPath.row % 2 == 0 ? 90 : 270
                 }
                 return 45
-            }
-            .itemTitleDidSelected(completed: { _ in })
+            }.itemTitleDidSelected(completed: { _ in })
+
         self.binding.bind(to: mainTableView)
+        
         getData()
     }
 

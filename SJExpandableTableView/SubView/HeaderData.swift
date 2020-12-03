@@ -44,7 +44,7 @@ struct ContentData {
 
 struct BindData {
     var onBind: BindType?
-    mutating func bind(to tb:SJExpandableTableView) {
+    mutating func bind(to tb:SJExpandableTableViewable) {
         onBind = tb.getBind()
     }
 }

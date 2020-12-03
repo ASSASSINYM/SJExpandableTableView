@@ -11,6 +11,7 @@
 		0487F0EF2575E5380094FA6D /* DynamicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0487F0EE2575E5380094FA6D /* DynamicViewController.swift */; };
 		0487F10725763B960094FA6D /* HeaderData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0487F10625763B960094FA6D /* HeaderData.swift */; };
 		0487F10A25763C270094FA6D /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0487F10925763C270094FA6D /* String+Extension.swift */; };
+		0487F10D2578796A0094FA6D /* SJExpandableTableViewable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0487F10C2578796A0094FA6D /* SJExpandableTableViewable.swift */; };
 		0489C2E224FF69500077C223 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0489C2E124FF69500077C223 /* AppDelegate.swift */; };
 		0489C2E424FF69500077C223 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0489C2E324FF69500077C223 /* SceneDelegate.swift */; };
 		0489C2E624FF69500077C223 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0489C2E524FF69500077C223 /* ViewController.swift */; };
@@ -32,6 +33,7 @@
 		0487F0EE2575E5380094FA6D /* DynamicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicViewController.swift; sourceTree = "<group>"; };
 		0487F10625763B960094FA6D /* HeaderData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderData.swift; sourceTree = "<group>"; };
 		0487F10925763C270094FA6D /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		0487F10C2578796A0094FA6D /* SJExpandableTableViewable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SJExpandableTableViewable.swift; sourceTree = "<group>"; };
 		0489C2DE24FF69500077C223 /* SJExpandableTableView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SJExpandableTableView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0489C2E124FF69500077C223 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0489C2E324FF69500077C223 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 				0489C2F924FF69880077C223 /* SJExpandableTableView.xib */,
 				0487F10625763B960094FA6D /* HeaderData.swift */,
 				0487F10925763C270094FA6D /* String+Extension.swift */,
+				0487F10C2578796A0094FA6D /* SJExpandableTableViewable.swift */,
 			);
 			path = SubView;
 			sourceTree = "<group>";
@@ -196,6 +199,7 @@
 				0487F0EF2575E5380094FA6D /* DynamicViewController.swift in Sources */,
 				0489C2E424FF69500077C223 /* SceneDelegate.swift in Sources */,
 				0487F10725763B960094FA6D /* HeaderData.swift in Sources */,
+				0487F10D2578796A0094FA6D /* SJExpandableTableViewable.swift in Sources */,
 				71DFE6A2250FBBD500B34005 /* TextViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

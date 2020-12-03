@@ -9,11 +9,11 @@
 import UIKit
 
 class FixedHeightViewController: UIViewController, SJExpandableTableDataSource {
+    
     var binding: BindData = BindData()
     private var num : Int = 1
-    private lazy var mainTableView:SJExpandableTableView = {
-        return SJExpandableTableView(frame: self.view.frame)
-    }()
+    
+    @IBOutlet weak var mainTableView: SJExpandableTableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +26,10 @@ class FixedHeightViewController: UIViewController, SJExpandableTableDataSource {
                                      mainTableView.rightAnchor.constraint(equalTo: self.view.rightAnchor)])
         
         mainTableView
+            .configureHeaderView(configureView: { (tb, index) -> UITableViewHeaderFooterView? in
+                let v = UITableViewHeaderFooterView()
+                return v
+            })
             // normal status's height
             .configureItem(height: 45)
             // top title
@@ -47,7 +51,7 @@ class FixedHeightViewController: UIViewController, SJExpandableTableDataSource {
                 Log.info(index.row)
                 self?.showDialog("\(index.row)")
             }
-        
+
         // binding data
         self.binding.bind(to: mainTableView)
         
